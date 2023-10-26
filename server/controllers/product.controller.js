@@ -1,36 +1,35 @@
-import Product from '../models/product.model.js'
+import Product from "../models/product.model.js";
 
-export const getAllProducts = async ()=>{
+export const getAllProducts = async () => {};
 
-}
+export const getOneProduct = async (req, res) => {
+ 
+  try {
+    const productDetails = await Product.findById({_id : req.params.id});
+    if(!productDetails) res.status(404).json("user not found");
 
-export const getOneProduct = async ()=>{
+    res.status(201).json(productDetails);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-}
+export const addProduct = async (req, res) => {
+  const newProduct = new Product(req.body);
 
-export const addProduct = async (req, res)=>{
+  try {
+    await newProduct.save();
+    res.status(201).json({
+      message: "product listed successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "some error occured",
+    });
+  }
+};
 
-    const newProduct = new Product(req.body);
+export const updateProduct = async () => {};
 
-    try {
-        await newProduct.save();
-        res.status(201).json({
-            message:"product listed successfully"
-        })
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message:"some error occured"
-        })
-    }
-
-}
-
-export const updateProduct = async ()=>{
-
-}
-
-export const deleteProduct = async ()=>{
-
-}
+export const deleteProduct = async () => {};

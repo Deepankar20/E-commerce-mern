@@ -9,6 +9,7 @@ import {
   uploadBytesResumable,
   ref,
 } from "firebase/storage";
+import { Navigate } from "react-router-dom";
 
 export const AddProduct = () => {
   const userRef = JSON.parse(localStorage.getItem("token"))._id;
@@ -111,6 +112,7 @@ export const AddProduct = () => {
         });
 
       setLoading(false);
+      Navigate()
       console.log(data.data.message);
     } catch (error) {
       console.log(error);

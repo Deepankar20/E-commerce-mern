@@ -1,4 +1,5 @@
 import {FaSearch} from 'react-icons/fa';
+import {FaShoppingCart} from 'react-icons/fa';
 import {Link} from 'react-router-dom';
 const Navbar = () => {
   const currentUser = JSON.parse(localStorage.getItem("token"));
@@ -12,7 +13,11 @@ const Navbar = () => {
         <button className="bg-slate-100 p-3 rounded-3xl"><FaSearch/></button>
         </form>
 
-        <ul className='text-white flex gap-3 p-4'>
+        <ul className='text-white flex gap-6 p-4 items-center'>
+            <div className='flex gap-2'>
+            <span>1</span>
+            <li><Link to={'/cart'}><FaShoppingCart className='text-slate-200 h-7 w-7'/></Link></li>
+            </div>
             <li>{currentUser? <Link to={'/profile'}><img src={currentUser.avatar} className='h-9 w-9 rounded-full object-contain '/></Link>:"signin"}</li>
         </ul>
 

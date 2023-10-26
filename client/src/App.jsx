@@ -7,6 +7,7 @@ import { Signup } from "./pages/Signup";
 import { Login } from "./pages/Login";
 import { Profile } from "./pages/Profile";
 import { AddProduct } from "./pages/AddProduct";
+import { ProductPage } from "./pages/ProductPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/signin' element={<Login/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/addproduct' element={<AddProduct/>}/>
+        <Route path='/product/:id' element={<ProductPage/>}/>
       </Routes>
     </BrowserRouter>
   );
