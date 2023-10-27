@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { refreshCart } from "../features/cart/cartSlice";
 
 export const Login = () => {
   const token = localStorage.getItem("token");
@@ -32,6 +34,14 @@ export const Login = () => {
           console.log(error);
         });
         
+
+        try {
+
+          
+          
+        } catch (error) {
+          
+        }
        
         setFormData({});
         setError(false);

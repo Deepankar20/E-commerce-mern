@@ -9,6 +9,7 @@ import { Profile } from "./pages/Profile";
 import { AddProduct } from "./pages/AddProduct";
 import { ProductPage } from "./pages/ProductPage";
 
+
 function App() {
   return (
     <BrowserRouter>
