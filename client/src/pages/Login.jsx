@@ -1,61 +1,50 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import axios from "axios";
 import { useDispatch } from "react-redux";
 import { refreshCart } from "../features/cart/cartSlice";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-    const [formData, setFormData] = useState({
-        email:"",
-        password:"",
-    });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const handleChange = (e)=>{
-        setFormData({...formData, [e.target.name]:e.target.value});
-    }
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    const handleFormSubmit = async (e)=>{
-        e.preventDefault();
-        setLoading(true);
-
-        try {
-          const res = await axios
-        .post('/api/auth/signin', formData)
+    try {
+      const res = await axios
+        .post("/api/auth/signin", formData)
         .then((res) => {
           console.log(res);
-          localStorage.setItem('token', JSON.stringify(res.data));
+          localStorage.setItem("token", JSON.stringify(res.data));
         })
         .catch((error) => {
           console.log(error);
         });
+
         
-
-        try {
-
-          
-          
-        } catch (error) {
-          
-        }
-       
         setFormData({});
-        setError(false);
+      } catch (error) {
+        console.log(error);
+        setError(error.msg);
+      }
+     
+      setError(false);
       
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setError(error.msg);
-    }
-        
-    }
-
-
-
+    };
 
   return (
     <div className="p-5 mx-auto max-w-lg">
@@ -78,11 +67,18 @@ export const Login = () => {
           onChange={handleChange}
         />
 
-        <button className="p-2 border border-black rounded-md text-white bg-yellow-400 hover:bg-yellow-500 font-semibold uppercase">{loading? "logging in...":"log in"}</button>
+        <button className="p-2 border border-black rounded-md text-white bg-yellow-400 hover:bg-yellow-500 font-semibold uppercase">
+          {loading ? "logging in..." : "log in"}
+        </button>
       </form>
 
       {error && <span className="text-red-600">{error.msg}</span>}
-      <span>dont have an account? <Link to={"/signup"} className="text-blue-500">signup here</Link></span>
+      <span>
+        dont have an account?{" "}
+        <Link to={"/signup"} className="text-blue-500">
+          signup here
+        </Link>
+      </span>
     </div>
   );
 };

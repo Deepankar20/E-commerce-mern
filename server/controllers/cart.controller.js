@@ -23,6 +23,7 @@ export const add = async (req, res) => {
 
     if (!update) res.status(404).json({ msg: "cart not found" });
 
+    
     res.status(201).json({ msg: "item added successfully" });
   } catch (error) {
     console.log(error);
@@ -30,7 +31,7 @@ export const add = async (req, res) => {
   }
 };
 export const remove = async (req, res) => {
-  const { userRef, item } = req.body;
+  const { item } = req.body;
 
   try {
     const update = await Cart.updateMany(
@@ -46,4 +47,14 @@ export const remove = async (req, res) => {
   }
 };
 
-export const getCartItems = (req, res) => {};
+export const getCartItems = async (req, res) => {
+    try {
+        const userRef = req.params.id;
+
+        const cart = await Cart.findOne({userRef});
+        res.status(201).json({cartItems : cart.cartItem});
+        
+    } catch (error) {
+        
+    }
+};

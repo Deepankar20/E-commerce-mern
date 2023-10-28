@@ -10,12 +10,18 @@ export const signup = async (req, res, next)=>{
     const newUser = new User({username, email, password});
 
     try {
-        await newUser.save();
+         await newUser.save();
+
+        const user = await User.findOne(req.body);
+        console.log(user);
+
         res.status(201).json({
             msg:"user successsfully created",
+            userRef:user._id
         });
         
     } catch (error) {
+        console.log(error);
         res.status(401).json({
             msg:"some error occured",
         })

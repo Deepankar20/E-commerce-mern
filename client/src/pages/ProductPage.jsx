@@ -2,17 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BasicCarousel from "./BasicCarousel";
-import { useSelector, useDispatch } from 'react-redux';
-import {addToCart, removeFromCart} from '../features/cart/cartSlice.js'
-
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, removeFromCart } from "../features/cart/cartSlice.js";
 
 export const ProductPage = () => {
+  const token = JSON.parse(localStorage.getItem("token"));
   const params = useParams();
   const [productDetails, setProductDetails] = useState({});
   const [loading, setLoading] = useState(false);
+  const [Btnloading, setBtnLoading] = useState(false);
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
 
-  console.log(productDetails);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -27,23 +28,27 @@ export const ProductPage = () => {
     fetchProduct();
   }, []);
 
-  const handleAddToCart = ()=>{
+ 
 
-    const cart = useSelector((state) => state.cart.cart);
+  const handleAddToCart = async () => {
+    
+    setBtnLoading(true);
 
-    if(cart.find((e) => e!==productDetails)){
-      setLoading(true);
-
-      dispatch()
-
-
+    try {
+      console.log("try mein toh aaya")
+      const res = await axios
+        .post(`/api/cart/addtocart/${token._id}`, productDetails)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error);
     }
-    else{
 
+    dispatch(addToCart(productDetails));
+    setBtnLoading(false);
 
-    }
-
-  }
+    
+  };
 
   return (
     <>
@@ -79,7 +84,7 @@ export const ProductPage = () => {
               onClick={handleAddToCart}
               className="bg-yellow-500 text-white p-2 border rounded-xl w-40 uppercase font-semibold"
             >
-              add to cart
+              {Btnloading ? "adding..." : "add to cart"}
             </button>
           </div>
         </div>

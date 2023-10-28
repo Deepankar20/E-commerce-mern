@@ -9,6 +9,8 @@ export const Signup = () => {
     password: "",
   });
 
+  const [userRef, setUserRef] = useState("");
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -22,14 +24,29 @@ export const Signup = () => {
 
     try {
       const res = await axios
-        .post('/api/auth/signup', formData)
+        .post("/api/auth/signup", formData)
         .then((res) => {
-          console.log(res);
+          setUserRef(res.userRef);
         })
         .catch((err) => {
           console.log(err);
         });
-      
+
+      try {
+        const res = await axios
+          .post("/api/cart/createcart", {
+            userRef: userRef,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+
       setLoading(false);
     } catch (error) {
       console.log(error);
